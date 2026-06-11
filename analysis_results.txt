@@ -1,0 +1,173 @@
+--- Query 1 ---
+-- ---------------------------------------------------------
+-- Sales Data Analysis Queries
+-- These queries are designed to run on the cleaned_sales_data table.
+-- ---------------------------------------------------------
+
+-- 1. Total Revenue and Order Count
+-- Get the high-level metrics of the entire dataset
+SELECT 
+    COUNT(DISTINCT OrderID) AS TotalOrders,
+    SUM(Quantity) AS TotalItemsSold,
+    SUM(TotalRevenue) AS TotalRevenue
+FROM 
+    cleaned_sales_data
+
+--- Results ---
+ TotalOrders  TotalItemsSold  TotalRevenue
+       51398          282997  64403010.475
+
+==================================================
+
+--- Query 2 ---
+-- 2. Monthly Sales Trend
+-- Analyze how sales perform month over month
+SELECT 
+    YearMonth,
+    COUNT(DISTINCT OrderID) AS NumberOfOrders,
+    SUM(TotalRevenue) AS MonthlyRevenue
+FROM 
+    cleaned_sales_data
+GROUP BY 
+    YearMonth
+ORDER BY 
+    YearMonth ASC
+
+--- Results ---
+YearMonth  NumberOfOrders  MonthlyRevenue
+  2022-01            2179     2719214.425
+  2022-02            2018     2468233.630
+  2022-03            2157     2687985.720
+  2022-04            2145     2677260.925
+  2022-05            2235     2673600.490
+  2022-06            2140     2679461.995
+  2022-07            2205     2730476.900
+  2022-08            2111     2843927.955
+  2022-09            2171     2707729.930
+  2022-10            2207     2673923.500
+  2022-11            2171     3057134.560
+  2022-12            2099     2662818.525
+  2023-01            2163     2715255.705
+  2023-02            1945     2404838.860
+  2023-03            2238     2677498.330
+  2023-04            2096     2622830.860
+  2023-05            2185     2557885.230
+  2023-06            2077     2557599.215
+  2023-07            2110     2706863.415
+  2023-08            2223     2745310.895
+  2023-09            2073     2667599.770
+  2023-10            2135     2579279.305
+  2023-11            2142     2837215.970
+  2023-12            2173     2749064.365
+
+==================================================
+
+--- Query 3 ---
+-- 3. Top-Selling Categories by Revenue
+-- Identify which product categories drive the most revenue
+SELECT 
+    Category,
+    SUM(Quantity) AS ItemsSold,
+    SUM(TotalRevenue) AS CategoryRevenue
+FROM 
+    cleaned_sales_data
+GROUP BY 
+    Category
+ORDER BY 
+    CategoryRevenue DESC
+
+--- Results ---
+     Category  ItemsSold  CategoryRevenue
+  Electronics      57148     44533113.030
+Home & Garden      56701      9030414.230
+       Sports      56107      4507345.470
+     Clothing      56178      3772385.890
+         Toys      56863      2559751.855
+
+==================================================
+
+--- Query 4 ---
+-- 4. Top 10 Best-Selling Products
+-- Drill down into specific products that are popular
+SELECT 
+    Product,
+    Category,
+    SUM(Quantity) AS TotalQuantitySold,
+    SUM(TotalRevenue) AS TotalRevenue
+FROM 
+    cleaned_sales_data
+GROUP BY 
+    Product, Category
+ORDER BY 
+    TotalRevenue DESC
+LIMIT 10
+
+--- Results ---
+       Product      Category  TotalQuantitySold  TotalRevenue
+    Smartphone   Electronics              11526    9084879.15
+        Laptop   Electronics              11614    9059436.60
+    Headphones   Electronics              11562    8905236.29
+       Monitor   Electronics              11263    8761145.70
+        Tablet   Electronics              11183    8722415.29
+          Lamp Home & Garden              11592    1847770.36
+  Coffee Maker Home & Garden              11320    1839997.89
+     Plant Pot Home & Garden              11404    1799623.37
+       Blender Home & Garden              11290    1775688.50
+Vacuum Cleaner Home & Garden              11095    1767334.11
+
+==================================================
+
+--- Query 5 ---
+-- 5. Customer Lifetime Value (Top 10 Customers)
+-- Identify our most valuable customers based on total spend
+SELECT 
+    CustomerID,
+    COUNT(DISTINCT OrderID) AS TotalOrders,
+    SUM(TotalRevenue) AS TotalSpend,
+    AVG(TotalRevenue) AS AverageOrderValue
+FROM 
+    cleaned_sales_data
+GROUP BY 
+    CustomerID
+ORDER BY 
+    TotalSpend DESC
+LIMIT 10
+
+--- Results ---
+CustomerID  TotalOrders  TotalSpend  AverageOrderValue
+ CUST-3045           19    55626.35        2927.702632
+ CUST-3823           20    51633.75        2581.687500
+ CUST-1394           16    50546.96        3159.185000
+ CUST-1799           10    49671.65        4967.165000
+ CUST-3812           21    49275.92        2346.472381
+ CUST-1325           16    48484.02        3030.251250
+ CUST-4081           17    48459.81        2850.577059
+ CUST-2071           16    47059.84        2941.240000
+ CUST-2061           14    46460.57        3318.612143
+ CUST-2490           16    45192.26        2824.516250
+
+==================================================
+
+--- Query 6 ---
+-- 6. Average Basket Size and Value
+-- Understand the typical customer purchase
+SELECT 
+    AVG(ItemsPerOrder) AS AverageBasketSize,
+    AVG(RevenuePerOrder) AS AverageOrderValue
+FROM (
+    SELECT 
+        OrderID,
+        SUM(Quantity) AS ItemsPerOrder,
+        SUM(TotalRevenue) AS RevenuePerOrder
+    FROM 
+        cleaned_sales_data
+    GROUP BY 
+        OrderID
+) AS OrderSummary
+
+--- Results ---
+ AverageBasketSize  AverageOrderValue
+          5.505992        1253.025613
+
+==================================================
+

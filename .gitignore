@@ -1,0 +1,6 @@
+__pycache__/
+*.pyc
+.DS_Store
+# Optional: Ignore data files if you don't want them in git
+# raw_sales_data.csv
+# cleaned_sales_data.csv

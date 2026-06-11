@@ -1,45 +1,67 @@
-# Sales Data Analysis Dashboard Project
+# 📊 Sales Data Analysis & Power BI Dashboard
 
-This project demonstrates an end-to-end data analysis workflow, starting from mock data generation to data cleaning, SQL querying, and finally, data visualization. It simulates a real-world scenario of analyzing over 50,000 sales records to uncover business insights.
+![Power BI Dashboard Screenshot](screenshots/dashboard.png)
 
-## Project Highlights
-* **Analyzed 50,000+ sales records** using Python and Pandas.
-* **Performed data cleaning and preprocessing** to improve data quality, handling missing values, anomalies, and feature engineering.
-* **Prepared for interactive Power BI dashboards** showing sales trends and customer behavior.
+## 📝 Overview
+This project is a comprehensive end-to-end data analytics workflow designed to simulate a real-world business intelligence pipeline. Starting from generating raw mock data, the project progresses through data cleaning with Python, exploratory data analysis via SQL, and finally, interactive visualization using Microsoft Power BI.
 
-## Tools Used
-* **Python**: Used for programmatic data generation.
-* **Pandas**: Used for robust data cleaning, missing value imputation, and feature engineering.
-* **SQL**: Used for querying the cleaned dataset to extract high-level KPIs and behavioral metrics.
-* **Power BI**: (Instructions provided) Used for building interactive and dynamic data visualizations.
+The goal is to analyze over 50,000 retail transactions to uncover actionable insights regarding revenue generation, product performance, and customer lifetime value.
 
-## Project Structure
+## 🚀 Key Features & Outcomes
+* **Data Engineering:** Generated a robust dataset of 52,000+ records, complete with intentional "dirty" data (missing IDs, negative quantities) to simulate real-world data issues.
+* **Data Preprocessing:** Utilized Pandas to clean the data, impute missing values, fix data types, and engineer new features (e.g., `TotalRevenue`, `YearMonth`).
+* **SQL Analysis:** Executed complex queries to extract key performance indicators (KPIs) such as total revenue ($64.4M+), top-selling categories (Electronics leading), and identifying the top 10 most valuable customers.
+* **Interactive Dashboard:** Built a dynamic Power BI dashboard featuring trend lines, KPI cards, and category breakdowns.
 
-* `generate_data.py`: A Python script that creates `raw_sales_data.csv` with 50,000+ rows of transactional data, complete with intentional "dirty" data (missing IDs, negative quantities) to simulate real-world data issues.
-* `data_cleaning.py`: A Python script that uses Pandas to read the raw data, perform data cleaning (handling nulls, correcting data types, deduping), engineer new features (TotalRevenue, YearMonth), and output `cleaned_sales_data.csv`.
-* `analysis_queries.sql`: A collection of SQL queries designed to answer key business questions (e.g., Monthly Sales Trends, Top Selling Categories, Customer Lifetime Value).
-* `power_bi_dashboard_guide.md`: A step-by-step guide on how to ingest the cleaned data into Power BI, create DAX measures, and build the interactive dashboard.
+## 🛠️ Tech Stack
+* **Python (Pandas, Numpy, SQLite3)** - Data Generation, Cleaning, & Automation
+* **SQL** - Data Aggregation and Metrics Extraction
+* **Microsoft Power BI** - Data Visualization and Dashboarding
 
-## How to Run the Project
+## 📂 Project Structure
+* `generate_data.py`: Creates `raw_sales_data.csv` with raw transactional data.
+* `data_cleaning.py`: Reads the raw data, cleans it, engineers features, and outputs `cleaned_sales_data.csv`.
+* `run_sql_analysis.py`: Automates the process of loading the cleaned CSV into an in-memory SQLite database, runs the SQL queries, and saves the output to a text file.
+* `analysis_queries.sql`: A collection of SQL queries used for extracting business insights.
+* `analysis_results.txt`: The text output generated from the SQL queries containing the finalized metrics.
+* `power_bi_dashboard_guide.md`: A step-by-step guide for creating the Power BI dashboard.
+* `screenshots/`: Folder containing visuals of the final Power BI dashboard.
 
-1. **Prerequisites**: Ensure you have Python installed along with the `pandas` and `numpy` libraries.
+## 💻 How to Run the Project Locally
+
+1. **Clone the Repository**
+   ```bash
+   git clone https://github.com/pavani08-dotcom/sales-data-analysis-powerbi.git
+   cd sales-data-analysis-powerbi
+   ```
+
+2. **Install Dependencies**
+   Ensure you have Python installed, then install Pandas:
    ```bash
    pip install pandas numpy
    ```
 
-2. **Generate the Data**: Run the data generation script to create your raw dataset.
+3. **Generate & Clean Data**
+   Run the following scripts sequentially:
    ```bash
    python generate_data.py
-   ```
-
-3. **Clean the Data**: Run the data cleaning script to process the raw dataset and prepare it for analysis.
-   ```bash
    python data_cleaning.py
    ```
 
-4. **Analyze (SQL)**: You can import the resulting `cleaned_sales_data.csv` into a SQL database (like PostgreSQL, MySQL, or SQLite) and run the queries provided in `analysis_queries.sql`.
+4. **Run SQL Analysis**
+   To execute the queries and see the business metrics:
+   ```bash
+   python run_sql_analysis.py
+   ```
+   *Check `analysis_results.txt` to view the outputs!*
 
-5. **Visualize (Power BI)**: Follow the instructions in `power_bi_dashboard_guide.md` to connect Power BI to the cleaned CSV and build your dashboard.
+5. **Open Power BI**
+   - Open Power BI Desktop.
+   - Import `cleaned_sales_data.csv`.
+   - Follow the `power_bi_dashboard_guide.md` to recreate the visuals.
 
-## Outcome
-By completing this project, you will have a robust portfolio piece demonstrating your ability to handle the entire data pipeline—from raw, messy data to clean, actionable insights visualized in a professional dashboard.
+## 📈 Key Findings
+1. **Total Revenue:** Surpassed **$64.4 Million** over the tracking period across 282,000+ items sold.
+2. **Top Category:** **Electronics** drove the overwhelming majority of revenue ($44.5M), followed by Home & Garden.
+3. **Top Products:** Smartphones and Laptops were the highest revenue-generating individual products.
+4. **Customer Spend:** The top 10 customers have a significantly high lifetime value, each spending over $45,000.
